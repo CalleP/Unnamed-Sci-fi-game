@@ -131,6 +131,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 498000}
+  - 114: {fileID: 11480546}
   m_Layer: 0
   m_Name: EndCorridor_01
   m_TagString: Untagged
@@ -173,6 +174,23 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 4294967295
+  m_IsActive: 1
+--- !u!1 &153206
+GameObject:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 4
+  m_Component:
+  - 4: {fileID: 400870}
+  - 114: {fileID: 11456712}
+  - 114: {fileID: 11410750}
+  m_Layer: 0
+  m_Name: CorridorWaypoint
+  m_TagString: Waypoint
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
   m_IsActive: 1
 --- !u!1 &156886
 GameObject:
@@ -417,6 +435,18 @@ Transform:
   m_Children: []
   m_Father: {fileID: 498000}
   m_RootOrder: 13
+--- !u!4 &400870
+Transform:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 153206}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 6.34399986, y: -.300000012, z: 4.70499992}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 498000}
+  m_RootOrder: 22
 --- !u!4 &403796
 Transform:
   m_ObjectHideFlags: 1
@@ -652,7 +682,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 130884}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: .0199999996}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 418924}
@@ -677,6 +707,7 @@ Transform:
   - {fileID: 492672}
   - {fileID: 452544}
   - {fileID: 421252}
+  - {fileID: 400870}
   m_Father: {fileID: 0}
   m_RootOrder: 0
 --- !u!4 &498040
@@ -1597,6 +1628,17 @@ MonoBehaviour:
   negintensitivity: 104
   bouncen: 0
   bouncep: 0
+--- !u!114 &11410750
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 153206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 221eb402d42a59b43959af10a421e4e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11427644
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1612,6 +1654,34 @@ MonoBehaviour:
   negintensitivity: 104
   bouncen: 0
   bouncep: 0
+--- !u!114 &11456712
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 153206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b547b80a83eab14eb06b97ebd117906, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Adjecent: []
+  room: {fileID: 130884}
+  Type: 0
+--- !u!114 &11480546
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 130884}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 52fc7f6cff8c346408fa659536ccc4f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ChildWaypoints: []
+  Starter: {fileID: 11456712}
+  Ender: {fileID: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
