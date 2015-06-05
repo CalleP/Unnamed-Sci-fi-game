@@ -170,7 +170,7 @@ GameObject:
   - 4: {fileID: 427882}
   - 114: {fileID: 11403768}
   m_Layer: 0
-  m_Name: Corridor_01
+  m_Name: Corridor_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -470,8 +470,8 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 135484}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 60}
+  m_LocalRotation: {x: 0, y: .707107008, z: 0, w: .70710665}
+  m_LocalPosition: {x: -2.48000002, y: 0, z: 75.0599976}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 435886}
@@ -1535,6 +1535,7 @@ MonoBehaviour:
   Adjecent:
   - {fileID: 11466946}
   room: {fileID: 135484}
+  slowDownBeforeApproaching: 0
   Type: 0
 --- !u!114 &11435732
 MonoBehaviour:
@@ -1592,6 +1593,7 @@ MonoBehaviour:
   Adjecent:
   - {fileID: 11431978}
   room: {fileID: 135484}
+  slowDownBeforeApproaching: 0
   Type: 0
 --- !u!1001 &100100000
 Prefab:

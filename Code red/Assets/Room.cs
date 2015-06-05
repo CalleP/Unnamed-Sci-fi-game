@@ -5,7 +5,7 @@ using System;
 
 public class Room : MonoBehaviour {
 
-    
+
 
     public List<Waypoint> ChildWaypoints = new List<Waypoint>();
 

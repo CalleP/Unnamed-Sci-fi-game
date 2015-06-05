@@ -15,6 +15,8 @@ public class Waypoint : MonoBehaviour {
 
     public static List<Waypoint> MostRecentPath;
 
+    public bool slowDownBeforeApproaching;
+
     public enum WaypointDirections{
         None,
         West,
@@ -33,8 +35,11 @@ public class Waypoint : MonoBehaviour {
 
     public WaypointType Type;
 
+
+
 	// Use this for initialization
 	void Start () {
+        
 
         name = "Waypoint_" + AmountOfWaypoints;
         AmountOfWaypoints++;
@@ -50,8 +55,9 @@ public class Waypoint : MonoBehaviour {
 	        {
 		        var objectPos = obj.transform.position;
                 var distanceSqr = (objectPos - transform.position).sqrMagnitude;
- 
-                if (distanceSqr <= 1f && distanceSqr < nearestDistanceSqr && obj.GetComponent<Waypoint>().room != room) {
+
+                if (distanceSqr <= 1f && distanceSqr < nearestDistanceSqr && (obj.GetComponent<Waypoint>().room != room && obj.GetComponent<Waypoint>().Type == WaypointType.EntryExit))
+                {
                     nearestObj = obj.transform;
                     nearestDistanceSqr = distanceSqr;
                 }
@@ -189,21 +195,24 @@ public class Waypoint : MonoBehaviour {
         return null;
     }
 
-    void OnDrawGizmos()
+    //void OnDrawGizmos()
+    //{
+    //    if (MostRecentPath.Count != 0)
+    //    {
+    //        Waypoint prev = null;
+    //        foreach (var node in MostRecentPath)
+    //        {
+    //            if (prev != null)
+    //            {
+    //                Gizmos.DrawLine(prev.transform.position + new Vector3(0, 1), node.transform.position + new Vector3(0, 1));
+    //            }
+    //            prev = node;
+    //        }
+    //    }
+    //}
+
+    void OnPreRender()
     {
-        if (MostRecentPath.Count != 0)
-        {
-            Waypoint prev = null;
-            foreach (var node in MostRecentPath)
-            {
-                if (prev != null)
-                {
-                    Gizmos.DrawLine(prev.transform.position + new Vector3(0, 1), node.transform.position + new Vector3(0, 1));
-                }
-                prev = node;
-            }
-        }
+        GL.wireframe = true;
     }
-
-
 }
