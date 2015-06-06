@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using Holoville.HOTween;
 
 public class WaypointFollower : MonoBehaviour {
 
@@ -12,6 +13,7 @@ public class WaypointFollower : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         MoveToWayPoint(waypointTest);
+
 	}
 	
 	// Update is called once per frame
@@ -28,7 +30,20 @@ public class WaypointFollower : MonoBehaviour {
                // var normalizedVector = (currentPath[0].transform.position - transform.position).normalized;
                // var vectorNoVertical = new Vector3(normalizedVector.x, 0, normalizedVector.z);
                // transform.Translate(vectorNoVertical/50);
+                
+                
+                //Quaternion.FromToRotation(transform.rotation, (currentPath[0].transform.position);
                 GetComponent<CharacterController>().Move((currentPath[0].transform.position - transform.position).normalized / 50);
+
+
+
+                
+                Vector3 worldLookDirection = currentPath[0].transform.position - transform.position;
+                Vector3 localLookDirection = transform.InverseTransformDirection(worldLookDirection);
+                localLookDirection.y = 0;
+                //transform.forward = transform.rotation * localLookDirection;
+                HOTween.To(transform, 1.3f, "forward", transform.rotation * localLookDirection, false); 
+             
                 //transform.position = Vector3.MoveTowards(transform.position, currentPath[0].transform.position, 0.1f);
             }
         }

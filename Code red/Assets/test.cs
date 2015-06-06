@@ -124,7 +124,7 @@ public class test : MonoBehaviour {
                         GL.Vertex(vec2);
                         GL.Vertex(vec3);
                     }
-                    if (render_lines_3rd)
+                    if (render_lines_3rd)GL.Color(lineColor);
                     {
                         GL.Vertex(vec3);
                         GL.Vertex(vec1);

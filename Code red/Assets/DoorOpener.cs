@@ -4,11 +4,17 @@ using Holoville.HOTween;
 
 public class DoorOpener : MonoBehaviour {
 
+    public GameObject UIRepresentation;
     public bool open = false;
     public float MaxOpenDistance;
     public float MaxClosedDistance;
     public float Speed = 0.1f;
     public GameObject autoOpen;
+
+    public Color ClosedColor;
+    public Color OpenColor;
+    public Color BrokenColor;
+    public Color LockedColor;
 
     private float originalPos;
     private Vector3 firstPos;
@@ -24,6 +30,24 @@ public class DoorOpener : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (Mathf.Abs(originalPos-transform.position.y) <= MaxOpenDistance -0.5f)
+        {
+            UIRepresentation.GetComponent<test>().lineColor = ClosedColor; 
+        }
+        else
+        {
+            UIRepresentation.GetComponent<test>().lineColor = OpenColor;
+        }
+
+        if (locked)
+	    {
+		    UIRepresentation.GetComponent<test>().lineColor = LockedColor;
+	    }
+        else if (broken)
+        {
+            UIRepresentation.GetComponent<test>().lineColor = BrokenColor;
+        }
+        
 
         if (autoOpen != null)
         {
