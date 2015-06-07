@@ -183,7 +183,7 @@ public class Waypoint : MonoBehaviour {
             {
                 foreach (var item in waypoints[end.gameObject].path)
                 {
-                    Debug.Log("Path: " + item.name);
+                    //Debug.Log("Path: " + item.name);
                 }
 
                 MostRecentPath = waypoints[end.gameObject].path;

@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
+using Holoville.HOTween;
 
 public class test : MonoBehaviour {
-
+    //Did not make this class
     public bool render_mesh_normaly = true;
     public bool render_lines_1st = false;
     public bool render_lines_2nd = false;
@@ -14,10 +15,17 @@ public class test : MonoBehaviour {
     public bool blend = true;
     public float lineWidth = 3;
     public int size = 0;
+    
+    public bool pulse = false;
+    public float pulseIntensity = 0.1f;
+    public float pulseSpeed = 0.1f;
 
+    private float originalLineWidth;
     private Vector3[] lines;
     private ArrayList lines_List;
     Material lineMaterial;
+
+    private Color originalLineColor;
     //private MeshRenderer meshRenderer; 
 
     /*
@@ -29,6 +37,10 @@ public class test : MonoBehaviour {
 
     void Start()
     {
+        
+        originalLineWidth = lineWidth;
+        originalLineColor = lineColor;
+        StartCoroutine(Pulsing());
         //meshRenderer = gameObject.GetComponent<MeshRenderer>();
         if (lineMaterial == null)
         {
@@ -70,7 +82,7 @@ public class test : MonoBehaviour {
     // to simulate thickness, draw line as a quad scaled along the camera's vertical axis.
     void DrawQuad(Vector3 p1, Vector3 p2)
     {
-        float thisWidth = 0.1f;
+        float thisWidth = lineWidth;
         Vector3 edge1 = Camera.main.transform.position - (p2 + p1) / 2.0f;    //vector from line center to camera
         Vector3 edge2 = p2 - p1;    //vector from point to point
         Vector3 perpendicular = Vector3.Cross(edge1, edge2).normalized * thisWidth;
@@ -148,4 +160,41 @@ public class test : MonoBehaviour {
             GL.End();
         }
     }
+
+    private Coroutine failCoRoutine;
+    public void Fail()
+    {
+        if (failCoRoutine != null)
+        {
+            StopCoroutine(failCoRoutine);
+        }
+        failCoRoutine = StartCoroutine(fail());
+    }
+
+    IEnumerator fail()
+    {
+        lineColor = Color.Lerp(lineColor, Color.red, 1.2f);
+        yield return new WaitForSeconds(.2f);
+        
+        while (lineColor != originalLineColor)
+        {
+            lineColor = Color.Lerp(lineColor, originalLineColor, 0.4f);
+            yield return new WaitForSeconds(.1f);
+        }
+    }
+
+
+    IEnumerator Pulsing()
+    {
+        while (pulse)
+	    {
+
+            lineWidth = Mathf.Lerp(lineWidth, originalLineWidth+pulseIntensity, pulseSpeed);
+	        yield return new WaitForSeconds(0.5f);
+            lineWidth = Mathf.Lerp(lineWidth, originalLineWidth, pulseSpeed);
+            yield return new WaitForSeconds(0.5f);
+	    }
+        
+    }
+
 }

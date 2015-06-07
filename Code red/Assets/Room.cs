@@ -6,6 +6,10 @@ using System;
 public class Room : MonoBehaviour {
 
 
+    public float Oxygen;
+    public float Heat;
+    public bool Powered;
+    
 
     public List<Waypoint> ChildWaypoints = new List<Waypoint>();
 
