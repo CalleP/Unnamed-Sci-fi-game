@@ -19,8 +19,10 @@ public class WaypointFollower : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        if (currentPath != null)
+        if (currentPath != null && currentPath.Count != 0)
         {
+            
+
             if (currentPath.Count != 0 && Vector3.Distance(new Vector3(transform.position.x,0,transform.position.z), new Vector3(currentPath[0].transform.position.x,0,currentPath[0].transform.position.z)) < 1f)
             {
                 currentPath.RemoveAt(0);
@@ -45,6 +47,17 @@ public class WaypointFollower : MonoBehaviour {
                 HOTween.To(transform, 1.3f, "forward", transform.rotation * localLookDirection, false); 
              
                 //transform.position = Vector3.MoveTowards(transform.position, currentPath[0].transform.position, 0.1f);
+            }
+
+            //Check if any of the waypoints have been closed off
+            foreach (var path in currentPath)
+            {
+                if (path.blocked)
+                {
+                    Waypoint end = currentPath[currentPath.Count - 1];
+                    MoveToWayPoint(end);
+                    break;
+                }
             }
         }
 

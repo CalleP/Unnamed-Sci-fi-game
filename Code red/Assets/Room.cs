@@ -21,6 +21,10 @@ public class Room : MonoBehaviour {
 	    
 	}
 
+
+   
+
+
     public void connectRooms(int childWaypointIndex, Waypoint newWaypoint) 
     {
         if (childWaypointIndex >= 0 && childWaypointIndex < ChildWaypoints.Count)
@@ -29,6 +33,8 @@ public class Room : MonoBehaviour {
             newWaypoint.Adjecent.Add(ChildWaypoints[childWaypointIndex]);
         }
     }
+
+
 
     //Connects the inputted waypoint with the closes one in the room
     public void connectRooms(Waypoint newWaypoint)

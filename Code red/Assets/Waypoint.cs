@@ -17,6 +17,9 @@ public class Waypoint : MonoBehaviour {
 
     public bool slowDownBeforeApproaching;
 
+    public bool blocked;
+    public bool AirTight = false;
+    
     public enum WaypointDirections{
         None,
         West,
@@ -143,7 +146,7 @@ public class Waypoint : MonoBehaviour {
                 DijkstraSet adjValues = waypoints[adjecent.gameObject];
                 
 
-                if (adjValues.Visited)
+                if (adjValues.Visited || adjecent.blocked)
 	            {
 		            continue;
 	            }
@@ -164,7 +167,7 @@ public class Waypoint : MonoBehaviour {
             List<DijkstraSet> list = new List<DijkstraSet>();
             foreach (var adjecent in current.Adjecent)
             {
-                if (!waypoints[adjecent.gameObject].Visited)
+                if (!waypoints[adjecent.gameObject].Visited && !adjecent.blocked)
                 {
                     list.Add(waypoints[adjecent.gameObject]);
                 }
@@ -183,7 +186,7 @@ public class Waypoint : MonoBehaviour {
             {
                 foreach (var item in waypoints[end.gameObject].path)
                 {
-                    //Debug.Log("Path: " + item.name);
+                    Debug.Log("Path: " + item.name);
                 }
 
                 MostRecentPath = waypoints[end.gameObject].path;

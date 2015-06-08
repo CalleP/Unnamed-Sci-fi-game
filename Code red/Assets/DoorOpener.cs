@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 using Holoville.HOTween;
+using System.Collections.Generic;
+
 
 public class DoorOpener : MonoBehaviour {
 
@@ -16,6 +18,8 @@ public class DoorOpener : MonoBehaviour {
     public Color BrokenColor;
     public Color LockedColor;
     public Color BrokenAndLocked;
+    
+    public EnabledScreen EnabledScreen;
 
     private float originalPos;
     private Vector3 firstPos;
@@ -24,27 +28,89 @@ public class DoorOpener : MonoBehaviour {
     public bool broken;
 
     public bool AutoClose = true;
+
+    public List<Waypoint> AssociatedWaypoints;
+
+    
     
 	// Use this for initialization
 	void Start () {
         originalPos = transform.position.y;
         firstPos = transform.position;
+        UpdateEnabledScreen(EnabledScreen.enabled);
+
+        UpdateWaypointsBlocked((broken || locked));
 	}
 	
 	// Update is called once per frame
+    void UpdateEnabledScreen(bool enabled)
+    {
+        if (EnabledScreen == null) return;
+
+        if (enabled && !EnabledScreen.enabled)
+        {
+            EnabledScreen.SetState(true);
+        }
+        else if (!enabled && EnabledScreen.enabled)
+        {
+            EnabledScreen.SetState(false);
+        }
+    }
+
+    void UpdateWaypointsBlocked(bool blocked)
+    {
+        foreach (var waypoint in AssociatedWaypoints)
+        {
+            waypoint.blocked = blocked;
+        }
+
+    }
+
+    void UpdateWaypointsAirTight(bool airtight)
+    {
+        foreach (var waypoint in AssociatedWaypoints)
+        {
+            waypoint.AirTight = airtight;
+        }
+
+    }
+
 	void Update () {
 
 
         //Debug.Log(Mathf.Abs(originalPos - transform.position.y));
         
         if (broken)
+        {
             UIRepresentation.GetComponent<test>().lineColor = Color.Lerp(UIRepresentation.GetComponent<test>().lineColor, BrokenColor, 0.08f);
+            UpdateEnabledScreen(false);
+            UpdateWaypointsBlocked(true);
+            UpdateWaypointsAirTight(true);
+            
+            
+        }
         else if (locked)
+        {
             UIRepresentation.GetComponent<test>().lineColor = Color.Lerp(UIRepresentation.GetComponent<test>().lineColor, LockedColor, 0.8f);
+            UpdateEnabledScreen(false);
+            UpdateWaypointsBlocked(true);
+            UpdateWaypointsAirTight(true);
+        }
         else if (open)
+        {
             UIRepresentation.GetComponent<test>().lineColor = Color.Lerp(UIRepresentation.GetComponent<test>().lineColor, OpenColor, 0.08f);
+            UpdateEnabledScreen(true);
+            UpdateWaypointsBlocked(false);
+            UpdateWaypointsAirTight(false);
+
+        }
         else
+        {
             UIRepresentation.GetComponent<test>().lineColor = Color.Lerp(UIRepresentation.GetComponent<test>().lineColor, ClosedColor, 0.08f);
+            UpdateEnabledScreen(true);
+            UpdateWaypointsBlocked(false);
+            UpdateWaypointsAirTight(true);
+        }
 
             
 
