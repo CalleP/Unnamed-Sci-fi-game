@@ -3,6 +3,7 @@ using System.Collections;
 
 using System;
 using System.Collections.Generic;
+using UnityEditor;
 
 public class Waypoint : MonoBehaviour {
 
@@ -217,5 +218,29 @@ public class Waypoint : MonoBehaviour {
     void OnPreRender()
     {
         GL.wireframe = true;
+    }
+
+
+
+    private Color stdGizmoClr = Color.gray;
+    void OnDrawGizmos()
+    {
+        //Gizmos.DrawIcon(transform.position, "test");
+
+        if (blocked)
+        {
+            Gizmos.color = Color.red;
+        }
+        
+        Gizmos.DrawCube(transform.position, transform.localScale/5);
+        
+
+        foreach (var adj in Adjecent)
+        {
+            if (blocked || adj.blocked) Gizmos.color = Color.red;
+            Gizmos.DrawLine(transform.position, adj.transform.position);  
+            
+        }
+
     }
 }

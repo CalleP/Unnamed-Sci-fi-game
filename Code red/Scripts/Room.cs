@@ -5,8 +5,13 @@ using System;
 
 public class Room : MonoBehaviour {
 
+    public List<Room> connectedViaAir;
 
-    public float Oxygen;
+    public float Oxygen = 50f;
+    public float MaxOxygen = 100f;
+
+    public float AirTransferRate = 2.1f;
+
     public float Heat;
     public bool Powered;
     
@@ -18,12 +23,48 @@ public class Room : MonoBehaviour {
 	}
 
 	void Update () {
-	    
+        //DistributeAir();   
 	}
 
 
-   
 
+    public void DistributeAir()
+    {
+        Room roomWithLeastOxygen = null;
+
+        float oxyRecord = Mathf.Infinity;
+        foreach (var room in connectedViaAir)
+	    {
+            
+            if (room.Oxygen < oxyRecord)
+            {
+                roomWithLeastOxygen = room;
+                oxyRecord = roomWithLeastOxygen.Oxygen;
+            }
+                
+            
+	    }
+
+        if (roomWithLeastOxygen != null && (roomWithLeastOxygen.Oxygen <= roomWithLeastOxygen.Oxygen +2.5f && roomWithLeastOxygen.Oxygen >= Oxygen - 2.5f))
+        {
+            //return;
+        }
+
+        
+            
+        if (roomWithLeastOxygen ?? false)
+	    {
+		 
+            roomWithLeastOxygen.ChangeOxygen(AirTransferRate);
+            ChangeOxygen(-(AirTransferRate));
+
+        }
+
+        
+	{
+		 
+	}
+    }
 
     public void connectRooms(int childWaypointIndex, Waypoint newWaypoint) 
     {
@@ -100,6 +141,15 @@ public class Room : MonoBehaviour {
         return null;
     }
 
+    public void ChangeOxygen(float amount)
+    {
+        if (Oxygen + amount <= 0) 
+            Oxygen = 0;
+        else if (Oxygen + amount >= MaxOxygen)  Oxygen = MaxOxygen;
+        else Oxygen += amount;
+
+        
+    }
 
 
     private class NodeWaypoint {

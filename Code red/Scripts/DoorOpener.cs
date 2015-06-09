@@ -37,7 +37,12 @@ public class DoorOpener : MonoBehaviour {
 	void Start () {
         originalPos = transform.position.y;
         firstPos = transform.position;
-        UpdateEnabledScreen(EnabledScreen.enabled);
+
+        if (EnabledScreen ?? false)
+        {
+            UpdateEnabledScreen(EnabledScreen.enabled);
+        }
+        
 
         UpdateWaypointsBlocked((broken || locked));
 	}
