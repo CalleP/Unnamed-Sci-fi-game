@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-
+using Holoville.HOTween;
 public class AirFlow : MonoBehaviour {
 
 	// Use this for initialization
@@ -143,6 +143,8 @@ public class AirFlow : MonoBehaviour {
 
     public void RedistributeAir()
     {
+
+        Dictionary<List<Room>, bool> Leaking = new Dictionary<List<Room>, bool>();
         foreach (var list in RoomsWithAirPassage)
         {
             foreach (var room in list)
@@ -150,31 +152,66 @@ public class AirFlow : MonoBehaviour {
                 var airLock = room.GetComponent<AirLock>();
                 if (airLock != null && airLock.PhysicalAirLock.open)
                 {
+                    Leaking.Add(list, true);
                     foreach (var LeakingRoom in list)
                     {
-                        int AirlessAmt = 0;
+                        int AirFilledAmt = 0;
 
-                        
+
                         foreach (var item in list)
                         {
-                            if (item.Oxygen == 0)
+                            if (item.Oxygen > 0)
                             {
-                                AirlessAmt++;
+                                AirFilledAmt++;
                             }
                         }
-                        if (AirlessAmt > 0)
+                        if (list.Count - AirFilledAmt > 0)
                         {
-                            LeakingRoom.ChangeOxygen(-5f / AirlessAmt);
+                            LeakingRoom.ChangeOxygen(-5f / AirFilledAmt);
                         }
                         else
                         {
                             LeakingRoom.ChangeOxygen(-5f);
                         }
-                        
+                    }
+                }
+            }
+            foreach (var PotentiallySealedRoom in list)
+            {
+                //TODO: IF connected to ventilation var airLock = room.GetComponent<Ventilation>();
+                if (!Leaking.ContainsKey(list))
+                {
+                    float totalOxygen = 0;
+                    foreach (var SealedRoom in list)
+                    {
+                        totalOxygen += SealedRoom.Oxygen;
+                    }
+
+                    foreach (var SealedRoom in list)
+                    {
+                        if (!InStabilizationCoroutines.Contains(list))
+                        {
+                            StartCoroutine(StabilizeAirLevel(list, SealedRoom.Oxygen = totalOxygen / list.Count));
+                        }
                     }
                 }
             }
         }
+    }
+        
+
+    private List<List<Room>> InStabilizationCoroutines = new List<List<Room>>();
+    
+    IEnumerator StabilizeAirLevel(List<Room> rooms, float goal)
+    {
+        InStabilizationCoroutines.Add(rooms);
+        foreach (var room in rooms)
+	    {
+            HOTween.To(room, 1f, "Oxygen", goal, false);
+	    }
+        
+        yield return new WaitForSeconds(1.1f);
+        InStabilizationCoroutines.Remove(rooms);
     }
 
 }
