@@ -204,14 +204,27 @@ public class AirFlow : MonoBehaviour {
     
     IEnumerator StabilizeAirLevel(List<Room> rooms, float goal)
     {
+        List<Tweener> tweeners = new List<Tweener>();
         InStabilizationCoroutines.Add(rooms);
         foreach (var room in rooms)
 	    {
-            HOTween.To(room, 1f, "Oxygen", goal, false);
+            tweeners.Add(HOTween.To(room, 1f, "Oxygen", goal, false));
 	    }
+        for (int i = 0; i < 11; i++)
+        {
+            if (!RoomsWithAirPassage.Contains(rooms))
+            {
+                InStabilizationCoroutines.Remove(rooms);
+                foreach (var tween in tweeners)
+                {
+                    tween.Kill();
+                }
+                yield return null;
+            }
+            yield return new WaitForSeconds(.1f);
+        }
         
-        yield return new WaitForSeconds(1.1f);
-        InStabilizationCoroutines.Remove(rooms);
+       
     }
 
 }

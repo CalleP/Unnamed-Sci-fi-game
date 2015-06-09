@@ -14,7 +14,8 @@ public class Room : MonoBehaviour {
 
     public float Heat;
     public bool Powered;
-    
+
+    public GameObject UIStatus;
 
     public List<Waypoint> ChildWaypoints = new List<Waypoint>();
 
@@ -23,7 +24,18 @@ public class Room : MonoBehaviour {
 	}
 
 	void Update () {
-        //DistributeAir();   
+        var UI = UIStatus.GetComponent<test>();
+        if (UI ?? false)
+        {
+            Color newColor = Color.red;
+            newColor.r = Oxygen / 100;
+
+            UI.lineColor = newColor;
+        }
+
+
+
+        
 	}
 
 
