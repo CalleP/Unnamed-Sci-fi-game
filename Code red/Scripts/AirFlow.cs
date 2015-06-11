@@ -98,6 +98,8 @@ public class AirFlow : MonoBehaviour {
                     {
                         continue;
                     }
+
+
                     var adjRoomScript = adj.room.GetComponent<Room>();
                     if (!visited.ContainsKey(adj) && !adj.AirTight)
                     {

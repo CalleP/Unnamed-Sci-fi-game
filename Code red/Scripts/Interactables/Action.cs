@@ -4,12 +4,23 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 
-class Action : MonoBehaviour
+class Action : MonoBehaviour, IScreenClickReceiever
 {
     public float EnergyCost = 0f;
     public bool RequiresCrew = false;
     public float Time;
-       
+
+
+
+    public void Clicked()
+    {
+        DoAction();
+    }
+
+    public void AltClicked()
+    {
+        DoAltAction();
+    }
 
     //To be implemented
     //public List<Item> ItemRequirements;

@@ -20,7 +20,10 @@ public class Waypoint : MonoBehaviour {
 
     public bool blocked;
     public bool AirTight = false;
-    
+
+    public bool IdlePoint;
+    public bool OccupiedIdle;
+
     public enum WaypointDirections{
         None,
         West,
@@ -43,10 +46,9 @@ public class Waypoint : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        
 
-        name = "Waypoint_" + AmountOfWaypoints;
-        AmountOfWaypoints++;
+
+        
 
         if (AutoConnect)
         {
@@ -187,7 +189,7 @@ public class Waypoint : MonoBehaviour {
             {
                 foreach (var item in waypoints[end.gameObject].path)
                 {
-                    Debug.Log("Path: " + item.name);
+                    //Debug.Log("Path: " + item.name);
                 }
 
                 MostRecentPath = waypoints[end.gameObject].path;
@@ -223,13 +225,19 @@ public class Waypoint : MonoBehaviour {
 
 
     private Color stdGizmoClr = Color.gray;
+
     void OnDrawGizmos()
     {
         //Gizmos.DrawIcon(transform.position, "test");
-
+        name = transform.parent.gameObject.name + " " + "WayPoint" + transform.position;
         if (blocked)
         {
             Gizmos.color = Color.red;
+        }
+        if (IdlePoint)
+        {
+            Gizmos.color = Color.green;
+            name += " IDLE";
         }
         
         Gizmos.DrawCube(transform.position, transform.localScale/5);

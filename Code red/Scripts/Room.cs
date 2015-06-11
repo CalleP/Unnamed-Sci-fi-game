@@ -17,6 +17,8 @@ public class Room : MonoBehaviour {
 
     public GameObject UIStatus;
 
+
+    public List<Waypoint> IdleSpots = new List<Waypoint>();
     public List<Waypoint> ChildWaypoints = new List<Waypoint>();
 
 	void Start () {
@@ -24,7 +26,9 @@ public class Room : MonoBehaviour {
 	}
 
 	void Update () {
-        var UI = UIStatus.GetComponent<test>();
+        test UI = UIStatus.GetComponent<test>();
+
+
         if (UI ?? false)
         {
             Color newColor = Color.red;

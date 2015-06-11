@@ -34,16 +34,17 @@ public class ScreenInteracter : MonoBehaviour {
             
                 if (Physics.Raycast(ray, out hit))
                 {
-                        var action = hit.collider.gameObject.GetComponent<Action>();
+                        var action = hit.collider.gameObject.GetComponent<IScreenClickReceiever>();
                         if (action != null)
                         {
+                            Debug.Log(hit.collider.gameObject.name);
                             if (Input.GetMouseButtonDown(0))
                             {
-                                action.DoAction();
+                                action.Clicked();
                             }
                             else if(Input.GetMouseButtonDown(1))
                             {
-                                 action.DoAltAction();
+                                 action.AltClicked();
                             }
 
                            

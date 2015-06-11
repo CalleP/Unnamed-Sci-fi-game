@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-class DoorAction : Action {
+class DoorAction : Action, IScreenClickReceiever{
 
     public DoorOpener doorOpener;
 	// Use this for initialization
@@ -11,21 +11,22 @@ class DoorAction : Action {
 	
 	// Update is called once per frame
 	void Update () {
-	    
+        
 	}
 
-    public override bool DoAction()
+
+
+    void IScreenClickReceiever.Clicked()
     {
         doorOpener.open = !doorOpener.open;
         doorOpener.AutoClose = !doorOpener.AutoClose;
-        return base.DoAction();
+        
+        
     }
 
-    public override bool DoAltAction()
+    void IScreenClickReceiever.AltClicked()
     {
-        
         doorOpener.locked = !doorOpener.locked;
         
-        return base.DoAltAction();
     }
 }
