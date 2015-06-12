@@ -43,22 +43,26 @@ public class WaypointFollower : MonoBehaviour {
                 
                 //Quaternion.FromToRotation(transform.rotation, (currentPath[0].transform.position);
 
-                var vector = (currentPath[0].transform.position - transform.position);
+                var vector = (new Vector3(currentPath[0].transform.position.x, transform.position.y, currentPath[0].transform.position.z) - transform.position);
+
+                
 
 
 
- 
+                transform.Translate(vector.normalized/10, Space.World);
 
+
+                var target = new Vector3(currentPath[0].transform.position.x, this.transform.position.y, currentPath[0].transform.position.z);
+
+                transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(vector), 0.1f);
+                //transform.LookAt(target);
                 //transform.Translate(new Vector3(vector.x, 0, vector.z).normalized/10);
 
-                Vector3 targetPostition = new Vector3(currentPath[0].transform.position.x,
-                       this.transform.position.y,
-                       currentPath[0].transform.position.z);
-                this.transform.LookAt(targetPostition);
+                
 
-                 var velocity = GetComponent<Rigidbody>().velocity = new Vector3(0,0,0.001f);
+                 //var velocity = GetComponent<Rigidbody>().velocity = new Vector3(0,0,0.001f);
 
-               // rigidbody.
+                // rigidbody.
                 //Vector3 worldLookDirection = currentPath[0].transform.position - transform.position;
                 //Vector3 localLookDirection = transform.InverseTransformDirection(worldLookDirection);
                 //localLookDirection.y = 0;
