@@ -1,9 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ScreenInteracter : MonoBehaviour {
+public class ScreenInteracter : MonoBehaviour
+{
 
-	// Use this for initialization
+    // Use this for initialization
     public LayerMask layermask;
 
 
@@ -12,50 +13,118 @@ public class ScreenInteracter : MonoBehaviour {
     public Camera UICamera;
     public float ActivationDistance = 4f;
 
-	void Start () {
-	
-	}
-	
-	// Update is called once per frame
-	void Update () {
 
-        //Debug.DrawLine(new Vector3(6.5f, -19.5f, 70.1f), new Vector3(0.3f, -0.9f, -0.1f), Color.yellow);
+    public LayerMask SelectionBoxLayerMask;
 
-        if (Input.GetMouseButtonDown(0) || Input.GetMouseButtonDown(1))
+
+    void Start()
+    {
+
+    }
+
+
+
+
+    // Update is called once per frame
+    void Update()
+    {
+        CheckScreen();
+
+    }
+
+
+    private bool firstClick = true;
+    public Vector3 firstClickPos;
+    private GameObject SelectBox;
+    void CheckScreen()
+    {
+
+        RaycastHit hit = new RaycastHit();
+        if (Input.GetMouseButton(0) || Input.GetMouseButtonDown(1))
         {
-	        var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            RaycastHit hit;
+            var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
 
 
             if (Physics.Raycast(ray, out hit, ActivationDistance, layermask) && hit.collider.gameObject == this.gameObject)
             {
                 var vector = Quaternion.AngleAxis(-90, Vector3.up) * new Vector3(hit.textureCoord.x, 0, hit.textureCoord.y);
                 ray = UICamera.ViewportPointToRay(new Vector3(hit.textureCoord.x, hit.textureCoord.y, UICamera.nearClipPlane));
-            
+
+                
+
+                //Cast Ray through the selected point on the viewport
                 if (Physics.Raycast(ray, out hit))
                 {
-                        var action = hit.collider.gameObject.GetComponent<IScreenClickReceiever>();
-                        if (action != null)
-                        {
-                            Debug.Log(hit.collider.gameObject.name);
-                            if (Input.GetMouseButtonDown(0))
-                            {
-                                action.Clicked();
-                            }
-                            else if(Input.GetMouseButtonDown(1))
-                            {
-                                 action.AltClicked();
-                            }
+                    var action = hit.collider.gameObject.GetComponent<IScreenClickReceiever>();
 
-                           
-                        }
-                        else
+                    Debug.Log(hit.collider.gameObject.name);
+
+
+                    if (action == null && Input.GetMouseButtonDown(0))
+                    {
+                        var neon = hit.collider.gameObject.GetComponent<test>();
+                        if (neon ?? false)
                         {
-                            hit.collider.gameObject.GetComponent<test>().Fail();
+                            neon.Fail();
                         }
+                    }
+
+                    if (Input.GetMouseButtonDown(0) && firstClick)
+                    {
+                        firstClickPos = hit.point;
+                        if(action !=  null) action.Clicked();
+                        firstClick = false;
+                    }
+                    else if (Input.GetMouseButton(0) && !firstClick)
+                    {
+                        if (SelectBox == null)
+                        {
+                            SelectBox = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                            var neon = SelectBox.AddComponent<test>();
+                            neon.lineWidth = 0.1f;
+                            neon.render_lines_2nd = true;
+                            neon.render_mesh_normaly = false;
+                            SelectBox.AddComponent<Action>();
+                            SelectBox.layer = 2;
+                            neon.lineColor = Color.green;
+
+                            
+                            //SelectBox.GetComponent<Renderer>().material = new Material(Shader.Find("Transparent/Diffuse"));
+                        }
+
                         
-	                }
+                        SelectBox.transform.localScale = new Vector3(firstClickPos.x - hit.point.x, 5, firstClickPos.z - hit.point.z);
+                        SelectBox.transform.position = new Vector3(firstClickPos.x - ((firstClickPos.x - hit.point.x) / 2), -68, firstClickPos.z - ((firstClickPos.z - hit.point.z) / 2));
+
+                    }
+                    else if (Input.GetMouseButtonDown(1))
+                    {
+                        action.AltClicked();
+                    }
+
+
                 }
+
+
+            }
         }
-	}
+        
+
+
+        if (Input.GetMouseButtonDown(0))
+        { 
+            firstClick = false;
+            if (hit.collider != null)
+            firstClickPos = hit.point;
+        }
+
+        if (!Input.GetMouseButton(0) && !Input.GetMouseButtonDown(0))
+        {
+            Destroy(SelectBox);
+            SelectBox = null;
+            firstClick = true;
+            firstClickPos = new Vector3(5, 5, 5);
+        }
+    }
 }

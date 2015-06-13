@@ -15,16 +15,12 @@ public class test : MonoBehaviour {
     public bool blend = true;
     public float lineWidth = 3;
     public int size = 0;
-    
-    public bool pulse = false;
-    public float pulseIntensity = 0.1f;
-    public float pulseSpeed = 0.1f;
 
-    private float originalLineWidth;
     private Vector3[] lines;
     private ArrayList lines_List;
-    Material lineMaterial;
+    public Material lineMaterial;
 
+    private float originalLineWidth;
     private Color originalLineColor;
     //private MeshRenderer meshRenderer; 
 
@@ -37,10 +33,8 @@ public class test : MonoBehaviour {
 
     void Start()
     {
-        
         originalLineWidth = lineWidth;
         originalLineColor = lineColor;
-        StartCoroutine(Pulsing());
         //meshRenderer = gameObject.GetComponent<MeshRenderer>();
         if (lineMaterial == null)
         {
@@ -115,7 +109,7 @@ public class test : MonoBehaviour {
         else
         {
             lineMaterial.SetPass(0);
-            GL.Color(lineColor);
+            
 
             if (lineWidth == 1)
             {
@@ -136,7 +130,7 @@ public class test : MonoBehaviour {
                         GL.Vertex(vec2);
                         GL.Vertex(vec3);
                     }
-                    if (render_lines_3rd)GL.Color(lineColor);
+                    if (render_lines_3rd)
                     {
                         GL.Vertex(vec3);
                         GL.Vertex(vec1);
@@ -184,17 +178,6 @@ public class test : MonoBehaviour {
     }
 
 
-    IEnumerator Pulsing()
-    {
-        while (pulse)
-	    {
 
-            lineWidth = Mathf.Lerp(lineWidth, originalLineWidth+pulseIntensity, pulseSpeed);
-	        yield return new WaitForSeconds(0.5f);
-            lineWidth = Mathf.Lerp(lineWidth, originalLineWidth, pulseSpeed);
-            yield return new WaitForSeconds(0.5f);
-	    }
-        
-    }
 
 }

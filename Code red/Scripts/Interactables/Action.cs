@@ -9,7 +9,7 @@ class Action : MonoBehaviour, IScreenClickReceiever
     public float EnergyCost = 0f;
     public bool RequiresCrew = false;
     public float Time;
-
+    public bool Clickable = true;
 
 
     public void Clicked()

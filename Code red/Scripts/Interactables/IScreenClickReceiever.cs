@@ -6,6 +6,8 @@ using System.Text;
 
 interface IScreenClickReceiever
 {
+    
+
     void Clicked();
     void AltClicked();
         
