@@ -97,7 +97,9 @@ public class test : MonoBehaviour {
     ████████       █  █  █▀▀   █  █  █■■█    █    █■■  
     ████████       ▀▄▄▀  █     █▄▄▀  █  █    █    █▄▄▄ 
     */
-
+    void Update()
+    {
+    }
 
     void OnRenderObject()
     {
@@ -155,15 +157,22 @@ public class test : MonoBehaviour {
         }
     }
 
-    private Coroutine failCoRoutine;
+    private Coroutine CurrCoRoutine;
+
+    private void clearCoRoutine()
+    {
+        if (CurrCoRoutine != null)
+        {
+            StopCoroutine(CurrCoRoutine);
+        }
+    }
+
     public void Fail()
     {
-        if (failCoRoutine != null)
-        {
-            StopCoroutine(failCoRoutine);
-        }
-        failCoRoutine = StartCoroutine(fail());
+        clearCoRoutine();
+        CurrCoRoutine = StartCoroutine(fail());
     }
+
 
     IEnumerator fail()
     {
@@ -177,7 +186,35 @@ public class test : MonoBehaviour {
         }
     }
 
+    public void Revert()
+    {
+        clearCoRoutine();
+        StartCoroutine(RevertCoroutine());
+    }
 
+    private IEnumerator RevertCoroutine()
+    {
+        while (lineColor != originalLineColor)
+        {
+            lineColor = Color.Lerp(lineColor, originalLineColor, 0.4f);
+            yield return new WaitForSeconds(.1f);
+        }
+    }
+
+    public void HighLight()
+    {
+        clearCoRoutine();
+        StartCoroutine(HighLightCoroutine());
+    }
+
+    public IEnumerator HighLightCoroutine()
+    {
+        while (lineColor != originalLineColor)
+        {
+            lineColor = Color.Lerp(lineColor, Color.green, 0.4f);
+            yield return new WaitForSeconds(.1f);
+        }
+    }
 
 
 }

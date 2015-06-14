@@ -26,7 +26,12 @@ public class Room : MonoBehaviour {
 	}
 
 	void Update () {
-        test UI = UIStatus.GetComponent<test>();
+        test UI = null;
+        if (UIStatus != null)
+        {
+            UI = UIStatus.GetComponent<test>();
+        }
+        
 
 
         if (UI ?? false)

@@ -58,7 +58,7 @@ public class ScreenInteracter : MonoBehaviour
                 {
                     var action = hit.collider.gameObject.GetComponent<IScreenClickReceiever>();
 
-                    Debug.Log(hit.collider.gameObject.name);
+                 
 
 
                     if (action == null && Input.GetMouseButtonDown(0))
@@ -80,21 +80,11 @@ public class ScreenInteracter : MonoBehaviour
                     {
                         if (SelectBox == null)
                         {
-                            SelectBox = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                            var neon = SelectBox.AddComponent<test>();
-                            neon.lineWidth = 0.1f;
-                            neon.render_lines_2nd = true;
-                            neon.render_mesh_normaly = false;
-                            SelectBox.AddComponent<Action>();
-                            SelectBox.layer = 2;
-                            neon.lineColor = Color.green;
+                            var obj = Resources.Load<GameObject>("PrefabsAux/SelectionBox");
+                            SelectBox = Instantiate(obj);
 
-                            
-                            //SelectBox.GetComponent<Renderer>().material = new Material(Shader.Find("Transparent/Diffuse"));
-                        }
-
-                        
-                        SelectBox.transform.localScale = new Vector3(firstClickPos.x - hit.point.x, 5, firstClickPos.z - hit.point.z);
+                        }               
+                        SelectBox.transform.localScale = new Vector3(firstClickPos.x - hit.point.x, 5f, firstClickPos.z - hit.point.z);
                         SelectBox.transform.position = new Vector3(firstClickPos.x - ((firstClickPos.x - hit.point.x) / 2), -68, firstClickPos.z - ((firstClickPos.z - hit.point.z) / 2));
 
                     }
