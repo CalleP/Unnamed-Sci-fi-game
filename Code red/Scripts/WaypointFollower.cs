@@ -16,7 +16,7 @@ public class WaypointFollower : MonoBehaviour {
 	void Start () {
         //MoveToWayPoint(waypointTest);
 
-        MoveToRoom(TestSelectedRoom);
+        //MoveToRoom(TestSelectedRoom);
 
 	}
 	
@@ -75,11 +75,7 @@ public class WaypointFollower : MonoBehaviour {
             //Check if any of the waypoints have been closed off
             foreach (var path in currentPath)
             {
-                if (path == null)
-                {
-                    Debug.Log("test");
-                }
-                if (path.blocked)
+                if (path != null && path.blocked)
                 {
                     Waypoint end = currentPath[currentPath.Count - 1];
                     MoveToWayPoint(end);
@@ -140,20 +136,67 @@ public class WaypointFollower : MonoBehaviour {
             }
         }
         
-        float BestIdle = Mathf.Infinity;
+        float BestIdle = 0;
         Waypoint BestIdlePoint = null;
         foreach (var idleSpot in targetRoom.IdleSpots)
         {
-            var distance = Vector3.Distance(BestPath[BestPath.Count - 1].transform.position, idleSpot.transform.position);
-            if (distance < BestIdle)
+            var distance = Vector3.Distance(transform.position, idleSpot.transform.position);
+            if (distance > BestIdle && !idleSpot.OccupiedIdle)
             {
                 BestIdlePoint = idleSpot;
-                BestIdlePoint.OccupiedIdle = true;
                 BestIdle = distance;
                 
             }
         }
-        currentWaypoint.OccupiedIdle = false;
+
+        //If all idle spots are occupied in the target room attempt to find closest empty spot alongst the path
+        if (BestIdlePoint == null)
+        {
+            for (int i = BestPath.Count-1; i > 0; i--)    
+            {
+                var newPath = BestPath[i];
+                if (newPath.room != targetRoom)
+                {
+                    foreach (var idleSpot in newPath.room.GetComponent<Room>().IdleSpots)
+                    {
+                        var distance = Vector3.Distance(transform.position, idleSpot.transform.position);
+                        if (distance > BestIdle && !idleSpot.OccupiedIdle)
+                        {
+                            BestIdlePoint = idleSpot;
+                            BestIdle = distance;
+
+                        }
+                    }
+                }
+                if (BestIdlePoint != null)
+                {
+                    //TODO: TEMPORARY SOLUTION
+
+                    BestPath = BestPath.CullPath(BestIdlePoint.room.GetComponent<Room>());
+                    break;
+                }
+
+            }
+
+        }
+
+        //There are no idle spots along the path, stay where you are
+        if (BestIdlePoint == null)
+        {
+            return;
+        }
+
+        if (currentPath.Count > 0)
+        {
+            currentPath[currentPath.Count - 1].OccupiedIdle = false;
+        }
+        else
+        {
+            currentWaypoint.OccupiedIdle = false;
+        }
+        
+        BestIdlePoint.OccupiedIdle = true;
+        
         BestPath.Add(BestIdlePoint);
 
         BestPath.RemoveAt(0);

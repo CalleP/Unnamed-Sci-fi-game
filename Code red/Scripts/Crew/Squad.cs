@@ -7,20 +7,14 @@ using UnityEngine;
 class Squad
 {
 
-    void Update()
-    {
-        foreach (var crew in GameObject.FindObjectsOfType<BaseCrew>())
-        {
-            if (!members.Contains(crew))
-            {
-                RemoveMember(crew);
-                crew.UIRepresentation.GetComponent<test>().lineColor = Color.yellow;
-            }
-        }
-    }
+
+
+
 
     public static Squad Instance = new Squad();
 
+
+    public bool SingleSelect;
     private List<BaseCrew> members = new List<BaseCrew>();
     private Squad()
     { 
@@ -49,7 +43,7 @@ class Squad
         if (!members.Contains(crew))
         {
             members.Add(crew);
-            crew.UIRepresentation.GetSafeComponent<test>().lineColor = Color.green;
+            crew.UIRepresentation.GetSafeComponent<test>().HighLight();
         }
 
     }
@@ -59,7 +53,7 @@ class Squad
         foreach (var crew in members)
         {
             crew.UIRepresentation.GetComponent<test>().Revert();
-            crew.UIRepresentation.GetComponent<test>().lineColor = Color.yellow;
+            
 
         }
         members.Clear();
@@ -72,12 +66,20 @@ class Squad
     }
 
 
+
+
     public void GotoRoom(Room room)
     {
-        foreach (var crew in members)
+        var a = new List<MonoBehaviour>();
+        a.AddRange(members.Cast<MonoBehaviour>());
+        var b = new List<MonoBehaviour>();
+        b.AddRange(room.IdleSpots.Cast<MonoBehaviour>());
+        foreach (var crew in Helper.GetClosestObjectsInOrder(a, b))
         {
             crew.GetComponent<WaypointFollower>().MoveToRoom(room);
         }
+
+        
     }
 
     public void GotoWaypoint(Waypoint waypoint)

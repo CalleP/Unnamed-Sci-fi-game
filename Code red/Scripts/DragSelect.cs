@@ -5,12 +5,13 @@ using System.Collections.Generic;
 class DragSelect : MonoBehaviour
 {
 
-    
 
+    public List<BaseCrew> currentCrew; 
     void FixedUpdate()
     {
         if (Input.GetMouseButtonDown(0))
         {
+            
             Squad.Instance.ClearSquad();
         }
         
@@ -24,8 +25,10 @@ class DragSelect : MonoBehaviour
         var gObj = other.GetComponent<Collider>().gameObject;
         if (gObj.GetComponent<CrewClicker>() != null)
         {
-            Squad.Instance.AddMember(gObj.transform.parent.gameObject.GetComponent<BaseCrew>());
-            Debug.Log(gObj.name);
+            var crew = gObj.transform.parent.gameObject.GetComponent<BaseCrew>();
+            gObj.GetComponent<test>().HighLight();
+            currentCrew.Add(crew);
+            
         }
             
 
@@ -39,14 +42,25 @@ class DragSelect : MonoBehaviour
         var gObj = other.GetComponent<Collider>().gameObject;
         if (gObj.GetComponent<CrewClicker>() != null)
         {
-            Squad.Instance.RemoveMember(gObj.transform.parent.gameObject.GetComponent<BaseCrew>());
-            Debug.Log(gObj.name);
+            var crew = gObj.transform.parent.gameObject.GetComponent<BaseCrew>();
+            gObj.GetComponent<test>().Revert();
+            currentCrew.Add(crew);
+            
         }
 
 
     }
 
 
+    void OnDestroy()
+    {
+        Squad.Instance.ClearSquad();
+        foreach (var crew in currentCrew)
+        {
+            Squad.Instance.AddMember(crew);
+        }
+
+    }
 
 }
 

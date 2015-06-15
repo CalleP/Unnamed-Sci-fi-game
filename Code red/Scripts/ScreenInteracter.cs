@@ -75,6 +75,7 @@ public class ScreenInteracter : MonoBehaviour
                         firstClickPos = hit.point;
                         if(action !=  null) action.Clicked();
                         firstClick = false;
+                        Squad.Instance.SingleSelect = true;
                     }
                     else if (Input.GetMouseButton(0) && !firstClick)
                     {
@@ -83,7 +84,8 @@ public class ScreenInteracter : MonoBehaviour
                             var obj = Resources.Load<GameObject>("PrefabsAux/SelectionBox");
                             SelectBox = Instantiate(obj);
 
-                        }               
+                        }
+                        Squad.Instance.SingleSelect = false;
                         SelectBox.transform.localScale = new Vector3(firstClickPos.x - hit.point.x, 5f, firstClickPos.z - hit.point.z);
                         SelectBox.transform.position = new Vector3(firstClickPos.x - ((firstClickPos.x - hit.point.x) / 2), -68, firstClickPos.z - ((firstClickPos.z - hit.point.z) / 2));
 

@@ -19,7 +19,7 @@ public class CrewClicker : MonoBehaviour, IScreenClickReceiever {
 
     public void Clicked()
     {
-        Squad.Instance.SingleSelection(gameObject.transform.parent.gameObject.GetSafeComponent<BaseCrew>());
+        //Squad.Instance.SingleSelection(gameObject.transform.parent.gameObject.GetSafeComponent<BaseCrew>());
         
        
     }

@@ -189,7 +189,7 @@ public class test : MonoBehaviour {
     public void Revert()
     {
         clearCoRoutine();
-        StartCoroutine(RevertCoroutine());
+        CurrCoRoutine = StartCoroutine(RevertCoroutine());
     }
 
     private IEnumerator RevertCoroutine()
@@ -204,12 +204,12 @@ public class test : MonoBehaviour {
     public void HighLight()
     {
         clearCoRoutine();
-        StartCoroutine(HighLightCoroutine());
+        CurrCoRoutine = StartCoroutine(HighLightCoroutine());
     }
 
     public IEnumerator HighLightCoroutine()
     {
-        while (lineColor != originalLineColor)
+        while (lineColor != Color.green)
         {
             lineColor = Color.Lerp(lineColor, Color.green, 0.4f);
             yield return new WaitForSeconds(.1f);

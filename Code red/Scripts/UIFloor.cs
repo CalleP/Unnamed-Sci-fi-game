@@ -19,7 +19,7 @@ class UIFloor : MonoBehaviour, IScreenClickReceiever {
 
     public void Clicked()
     {
-        Squad.Instance.GotoWaypoint(waypoint);
+        //Squad.Instance.GotoWaypoint(waypoint);
     }
 
     public void AltClicked()
