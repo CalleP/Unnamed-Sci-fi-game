@@ -100,10 +100,7 @@ public class WaypointFollower : MonoBehaviour {
 
     public void MoveToRoom(Room targetRoom)
     {
-        if (targetRoom == currentWaypoint.room.GetComponent<Room>())
-        {
-            return;
-        }
+        
         //Attempt to find shortest path into a room
         List<List<Waypoint>> potentialPaths = new List<List<Waypoint>>();
 

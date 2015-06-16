@@ -24,10 +24,11 @@ static class Extensions
         return listToClone.Select(item => (T)item.Clone()).ToList();
     }
 
-    //Remove  first instances waypoints in a path that belongs to a room except the first waypoint, starts from path end.
+    //Remove waypoints until the path reaches the last waypoint of the target room
     public static List<Waypoint> CullPath(this List<Waypoint> path, Room targetRoom)
     {
-
+        
+        
         int cullIndexA = -1;
         int cullLength = 0;
         var newRefList = new List<Waypoint>();
@@ -40,6 +41,8 @@ static class Extensions
         {
             var currentWP = path[i];
 
+            cullLength++;
+
             Waypoint nextWP = null;
             if (path.Count - (i+1) >= 0)
             {
@@ -49,13 +52,10 @@ static class Extensions
             if ((nextWP != null && nextWP.room.GetComponent<Room>() != targetRoom && currentWP.room.GetComponent<Room>() == targetRoom) && cullIndexA == -1)
             {
                 cullIndexA = i;
-                cullLength++;
+                
                 break;
             }
-            if (currentWP.room.GetComponent<Room>() == targetRoom)
-            {
-                cullLength++;
-            }
+
             
 
 
@@ -64,8 +64,22 @@ static class Extensions
             
         }
 
-        newRefList.RemoveRange(cullIndexA, cullLength);
 
+        if (cullIndexA == -1)
+        {
+            return path;
+        }
+        try
+        {
+            newRefList.RemoveRange(cullIndexA, cullLength);
+        }
+        catch (Exception)
+        {
+            Debug.Log("test");
+            throw;
+        }
+        
+        
         return newRefList;
     }
 }
