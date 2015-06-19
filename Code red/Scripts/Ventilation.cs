@@ -6,7 +6,7 @@ public class Ventilation : MonoBehaviour {
 
     public bool Enabled = true;
     public List<Room> ConnectedRooms;
-    public float TransferRate = 1f;
+    public float TransferRate = 10f;
 
 
 	// Use this for initialization
@@ -20,7 +20,7 @@ public class Ventilation : MonoBehaviour {
         {
             foreach (var room in ConnectedRooms)
             {
-                room.Oxygen += TransferRate / ConnectedRooms.Count;
+                room.ChangeOxygen(TransferRate / ConnectedRooms.Count);
             }
         }
 
