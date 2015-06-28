@@ -3,7 +3,7 @@ using System.Collections;
 
 public class EnabledScreen : MonoBehaviour {
 
-    public bool enabled;
+    public bool IsEnabled;
 
     public Mesh EnabledMesh;
     public Mesh EnabledMesh1;
@@ -21,7 +21,7 @@ public class EnabledScreen : MonoBehaviour {
 
     public void SetState(bool state)
     {
-        enabled = state;
+        IsEnabled = state;
         if (state)
         {
             GetComponent<MeshFilter>().mesh = EnabledMesh;

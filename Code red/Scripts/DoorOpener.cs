@@ -40,7 +40,7 @@ public class DoorOpener : MonoBehaviour {
 
         if (EnabledScreen ?? false)
         {
-            UpdateEnabledScreen(EnabledScreen.enabled);
+            UpdateEnabledScreen(EnabledScreen.IsEnabled);
         }
         
 
@@ -52,11 +52,11 @@ public class DoorOpener : MonoBehaviour {
     {
         if (EnabledScreen == null) return;
 
-        if (enabled && !EnabledScreen.enabled)
+        if (enabled && !EnabledScreen.IsEnabled)
         {
             EnabledScreen.SetState(true);
         }
-        else if (!enabled && EnabledScreen.enabled)
+        else if (!enabled && EnabledScreen.IsEnabled)
         {
             EnabledScreen.SetState(false);
         }

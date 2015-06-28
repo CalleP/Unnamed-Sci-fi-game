@@ -6,7 +6,7 @@ class DragSelect : MonoBehaviour
 {
 
 
-    public List<BaseCrew> currentCrew; 
+    public List<BaseCrew> currentCrew = null; 
     void FixedUpdate()
     {
         if (Input.GetMouseButtonDown(0))

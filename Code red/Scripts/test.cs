@@ -20,7 +20,8 @@ public class test : MonoBehaviour {
     private ArrayList lines_List;
     public Material lineMaterial;
 
-    private float originalLineWidth;
+    public static bool DrawUI = false;
+
     private Color originalLineColor;
     //private MeshRenderer meshRenderer; 
 
@@ -33,7 +34,6 @@ public class test : MonoBehaviour {
 
     void Start()
     {
-        originalLineWidth = lineWidth;
         originalLineColor = lineColor;
         //meshRenderer = gameObject.GetComponent<MeshRenderer>();
         if (lineMaterial == null)
@@ -103,6 +103,11 @@ public class test : MonoBehaviour {
 
     void OnRenderObject()
     {
+        if (!DrawUI)
+        {
+            return;
+        }
+
         gameObject.GetComponent<Renderer>().enabled = render_mesh_normaly;
         if (lines == null || lines.Length < lineWidth)
         {

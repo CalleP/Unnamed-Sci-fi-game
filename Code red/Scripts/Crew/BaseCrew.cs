@@ -7,5 +7,5 @@ using UnityEngine;
 
 class BaseCrew  : MonoBehaviour
 {
-    public GameObject UIRepresentation;
+    public GameObject UIRepresentation = null;
 }

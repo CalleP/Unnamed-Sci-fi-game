@@ -17,8 +17,6 @@ public class AirFlow : MonoBehaviour {
 
     public float drainRate = -0.3f;
     public List<List<Room>> RoomsWithAirPassage = new List<List<Room>>();
-    private Dictionary<Waypoint, bool> hasBeenVisited = new Dictionary<Waypoint, bool>();
-    private Stack<Waypoint> stack = new Stack<Waypoint>();
     public void CalculateAirFlow()
     {
         /*
@@ -83,7 +81,7 @@ public class AirFlow : MonoBehaviour {
                 var curr = stack.Pop();
 
 
-                if (visited.ContainsKey(curr))
+                if (visited.ContainsKey(curr) || curr.PowerWaypoint)
                 {
                     continue;
                 }

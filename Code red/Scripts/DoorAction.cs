@@ -3,7 +3,7 @@ using System.Collections;
 
 class DoorAction : Action, IScreenClickReceiever{
 
-    public DoorOpener doorOpener;
+    public DoorOpener doorOpener = null;
 	// Use this for initialization
 	void Start () {
 	

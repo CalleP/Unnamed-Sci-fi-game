@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 class UIFloor : MonoBehaviour, IScreenClickReceiever {
 
-    public Waypoint waypoint;
+    public Waypoint waypoint = null;
     //public List<>
 	// Use this for initialization
 	void Start () {

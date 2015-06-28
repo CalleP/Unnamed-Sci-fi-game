@@ -9,8 +9,7 @@ class Helper
 
     public static IEnumerable<MonoBehaviour> GetClosestObjectsInOrder(IEnumerable<MonoBehaviour> a, IEnumerable<MonoBehaviour> b)
     {
-        float previousBestDistance;
-        BaseCrew ClosestCrew;
+
 
         List<DistanceGameObj> ClosestGameObjs = new List<DistanceGameObj>();
 

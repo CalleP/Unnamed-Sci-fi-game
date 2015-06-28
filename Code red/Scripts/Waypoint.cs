@@ -3,7 +3,7 @@ using System.Collections;
 
 using System;
 using System.Collections.Generic;
-using UnityEditor;
+//using UnityEditor;
 
 public class Waypoint : MonoBehaviour {
 
@@ -23,6 +23,8 @@ public class Waypoint : MonoBehaviour {
 
     public bool IdlePoint;
     public bool OccupiedIdle;
+    public bool PowerWaypoint = false;
+
 
     public enum WaypointDirections{
         None,
@@ -79,10 +81,6 @@ public class Waypoint : MonoBehaviour {
         
 	}
 	
-	// Update is called once per frame
-	void Update () {
-
-	}
 
     private class DijkstraSet : IComparable<DijkstraSet>{
 
@@ -187,10 +185,6 @@ public class Waypoint : MonoBehaviour {
             waypoints[current.gameObject].Visited = true;
             if (waypoints[end.gameObject].Visited)
             {
-                foreach (var item in waypoints[end.gameObject].path)
-                {
-                    //Debug.Log("Path: " + item.name);
-                }
 
                 MostRecentPath = waypoints[end.gameObject].path;
                 return waypoints[end.gameObject].path;
@@ -224,7 +218,6 @@ public class Waypoint : MonoBehaviour {
 
 
 
-    private Color stdGizmoClr = Color.gray;
 
     void OnDrawGizmos()
     {

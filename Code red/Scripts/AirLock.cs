@@ -6,16 +6,15 @@ public class AirLock : MonoBehaviour
 {
 
     public DoorOpener PhysicalAirLock;
-    private bool prevState;
+
     // Use this for initialization
     void Start()
     {
-        prevState = PhysicalAirLock.open; 
+
     }
     public float drainRate = -5.55f;
     public List<Room> RoomsWithAirPassage;
-    private Dictionary<Waypoint, bool> hasBeenVisited = new Dictionary<Waypoint, bool>();
-    private Stack<Waypoint> stack = new Stack<Waypoint>();
+
     
 
     void Update()

@@ -48,7 +48,7 @@ public class ScreenInteracter : MonoBehaviour
 
             if (Physics.Raycast(ray, out hit, ActivationDistance, layermask) && hit.collider.gameObject == this.gameObject)
             {
-                var vector = Quaternion.AngleAxis(-90, Vector3.up) * new Vector3(hit.textureCoord.x, 0, hit.textureCoord.y);
+               
                 ray = UICamera.ViewportPointToRay(new Vector3(hit.textureCoord.x, hit.textureCoord.y, UICamera.nearClipPlane));
 
                 

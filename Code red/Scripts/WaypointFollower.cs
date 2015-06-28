@@ -52,7 +52,7 @@ public class WaypointFollower : MonoBehaviour {
                 transform.Translate(vector.normalized/10, Space.World);
 
 
-                var target = new Vector3(currentPath[0].transform.position.x, this.transform.position.y, currentPath[0].transform.position.z);
+                
 
                 transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.LookRotation(vector), 0.1f);
                 //transform.LookAt(target);
