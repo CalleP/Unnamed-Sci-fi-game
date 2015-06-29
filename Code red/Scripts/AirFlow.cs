@@ -6,7 +6,7 @@ public class AirFlow : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-	
+       allWP = GetComponentsInChildren<Waypoint>();
 	}
 	
 	// Update is called once per frame
@@ -15,10 +15,14 @@ public class AirFlow : MonoBehaviour {
         RedistributeAir();
 	}
 
-    public float drainRate = -0.3f;
+
+    public Waypoint[] allWP;
+    private float drainRate = -0.3f;
     public List<List<Room>> RoomsWithAirPassage = new List<List<Room>>();
     public void CalculateAirFlow()
     {
+
+        
         /*
                  stack.Push(start);
 
@@ -64,7 +68,7 @@ public class AirFlow : MonoBehaviour {
             room.connectedViaAir.Clear();
         }
 
-        var allWP = GetComponentsInChildren<Waypoint>();
+        
         if (allWP.Length != 0)
         {
             stack.Push(allWP[0]);

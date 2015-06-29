@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ScreenInteracter : MonoBehaviour
+class ScreenInteracter : MonoBehaviour
 {
 
     // Use this for initialization
@@ -13,6 +13,7 @@ public class ScreenInteracter : MonoBehaviour
     public Camera UICamera;
     public float ActivationDistance = 4f;
 
+    public ShipPowerManager PowerManager;
 
     public LayerMask SelectionBoxLayerMask;
 
@@ -40,7 +41,7 @@ public class ScreenInteracter : MonoBehaviour
     {
 
         RaycastHit hit = new RaycastHit();
-        if (Input.GetMouseButton(0) || Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButton(0) || Input.GetMouseButtonDown(1) || Input.GetMouseButtonDown(2))
         {
             var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
 
@@ -93,6 +94,11 @@ public class ScreenInteracter : MonoBehaviour
                     else if (Input.GetMouseButtonDown(1))
                     {
                         action.AltClicked();
+                    }
+
+                    if (Input.GetMouseButtonDown(2))
+                    {
+                        action.PowerClicked();
                     }
 
 

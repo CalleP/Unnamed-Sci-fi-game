@@ -244,4 +244,55 @@ public class Waypoint : MonoBehaviour {
         }
 
     }
+
+    public static List<Waypoint> GetAllWaypointsConnected(Waypoint start, bool IgnoreBlocked, bool IgnoreUnPowered, bool IgnoreAirTight)
+    {
+
+        var output = new List<Waypoint>();
+
+        Dictionary<Waypoint, bool> visited = new Dictionary<Waypoint, bool>();
+        Stack<Waypoint> stack = new Stack<Waypoint>();
+
+        output.Add(start);
+        stack.Push(start);
+
+        while (stack.Count != 0)
+        {
+            var currentWP = stack.Pop();
+            if (visited.ContainsKey(currentWP))
+                continue;
+            visited.Add(currentWP, true);
+            foreach (var item in currentWP.Adjecent)
+            {
+                var room = item.room.GetComponent<Room>();
+                if (!((!IgnoreBlocked && item.blocked) || (!IgnoreUnPowered && !room.Powered) || (!IgnoreAirTight && item.AirTight)))
+                {
+                    if (!output.Contains(item))
+                    {
+                        output.Add(item);
+                    }
+                    
+                    stack.Push(item);
+                }
+            }
+        }
+
+        return output;
+    }
+
+    public static List<Room> GetAllRoomsInPath(List<Waypoint> path)
+    {
+        var output = new List<Room>();
+
+        foreach (var waypoint in path)
+        {
+            var room = waypoint.room.GetComponent<Room>();
+            if (!output.Contains(room))
+                output.Add(room);
+                
+        }
+        return output;
+    }
+
+
 }

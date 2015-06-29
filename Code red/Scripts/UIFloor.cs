@@ -5,11 +5,11 @@ using System.Collections.Generic;
 
 class UIFloor : MonoBehaviour, IScreenClickReceiever {
 
-    public Waypoint waypoint = null;
+    public Room ParentRoom;
     //public List<>
 	// Use this for initialization
 	void Start () {
-	
+       
 	}
 	
 	// Update is called once per frame
@@ -26,5 +26,11 @@ class UIFloor : MonoBehaviour, IScreenClickReceiever {
     {
         Squad.Instance.GotoRoom(transform.parent.gameObject.GetSafeComponent<Room>());
         
+    }
+
+
+    public void PowerClicked()
+    {
+        ShipPowerManager.Instance.TogglePowerRoom(ParentRoom);
     }
 }

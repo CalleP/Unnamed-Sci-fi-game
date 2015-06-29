@@ -64,5 +64,11 @@ class Action : MonoBehaviour, IScreenClickReceiever
 
     }
 
+
+
+    public void PowerClicked()
+    {
+        throw new NotImplementedException();
+    }
 }
 

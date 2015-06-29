@@ -29,4 +29,10 @@ public class CrewClicker : MonoBehaviour, IScreenClickReceiever {
         return;
 
     }
+
+
+    public void PowerClicked()
+    {
+        throw new System.NotImplementedException();
+    }
 }

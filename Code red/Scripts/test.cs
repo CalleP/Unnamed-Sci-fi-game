@@ -20,7 +20,7 @@ public class test : MonoBehaviour {
     private ArrayList lines_List;
     public Material lineMaterial;
 
-    public static bool DrawUI = false;
+    public static bool DrawUI = true;
 
     private Color originalLineColor;
     //private MeshRenderer meshRenderer; 
@@ -77,6 +77,7 @@ public class test : MonoBehaviour {
     void DrawQuad(Vector3 p1, Vector3 p2)
     {
         float thisWidth = lineWidth;
+        //float thisWidth = 1.0f / Screen.width * lineWidth * 0.5f;
         Vector3 edge1 = Camera.main.transform.position - (p2 + p1) / 2.0f;    //vector from line center to camera
         Vector3 edge2 = p2 - p1;    //vector from point to point
         Vector3 perpendicular = Vector3.Cross(edge1, edge2).normalized * thisWidth;
@@ -148,7 +149,7 @@ public class test : MonoBehaviour {
             {
                 GL.Begin(GL.QUADS);
                 GL.Color(lineColor);
-                for (int i = 0; i + 2 < lines.Length; i += 3)
+                for (int i = 0; i + 2 < 18; i += 3)
                 {
                     Vector3 vec1 = to_world(lines[i]);
                     Vector3 vec2 = to_world(lines[i + 1]);
@@ -201,7 +202,7 @@ public class test : MonoBehaviour {
     {
         while (lineColor != originalLineColor)
         {
-            lineColor = Color.Lerp(lineColor, originalLineColor, 0.4f);
+            lineColor = Color.Lerp(lineColor, originalLineColor, 0.09f);
             yield return new WaitForSeconds(.1f);
         }
     }
@@ -217,6 +218,21 @@ public class test : MonoBehaviour {
         while (lineColor != Color.green)
         {
             lineColor = Color.Lerp(lineColor, Color.green, 0.4f);
+            yield return new WaitForSeconds(.1f);
+        }
+    }
+
+    public void Powered()
+    {
+        clearCoRoutine();
+        CurrCoRoutine = StartCoroutine(PoweredCoroutine());
+    }
+
+    public IEnumerator PoweredCoroutine()
+    {
+        while (lineColor != Color.green)
+        {
+            lineColor = Color.Lerp(lineColor, Color.yellow, 0.4f);
             yield return new WaitForSeconds(.1f);
         }
     }

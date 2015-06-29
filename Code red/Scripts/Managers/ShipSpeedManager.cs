@@ -7,7 +7,7 @@ using UnityEngine;
 class ShipSpeedManager : MonoBehaviour
 {
     
-    [SerializeField]
+    
     private float currentPosition = 0;
     public float CurrentPosition
     {
@@ -19,7 +19,7 @@ class ShipSpeedManager : MonoBehaviour
         get;
         protected set;
     }
-    [SerializeField]
+    
     private float endGoal = 10000;
     public float EndGoal
     {

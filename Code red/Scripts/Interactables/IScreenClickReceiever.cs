@@ -10,6 +10,9 @@ interface IScreenClickReceiever
 
     void Clicked();
     void AltClicked();
+    void PowerClicked();
+
+
         
 
 }

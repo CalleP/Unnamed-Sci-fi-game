@@ -5,7 +5,7 @@ using System.Collections;
 [RequireComponent(typeof(Waypoint))]
 abstract class BaseCrewStation : MonoBehaviour, ICrewInteractable, IPowerInteractable {
 
-    [SerializeField]
+    
     private float MaxHealth = 100;
     protected bool IsAtStation;
     private float health;
@@ -70,7 +70,8 @@ abstract class BaseCrewStation : MonoBehaviour, ICrewInteractable, IPowerInterac
         Enabled = false;
     }
 
-    [SerializeField]
+    
+
     private float enableCost = 5f;
     float IPowerInteractable.EnableCost
     {

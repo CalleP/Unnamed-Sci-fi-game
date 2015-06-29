@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 
-public class Room : MonoBehaviour {
+public class Room : MonoBehaviour, IPowerInteractable {
 
     public List<Room> connectedViaAir;
 
@@ -13,10 +13,23 @@ public class Room : MonoBehaviour {
     public float AirTransferRate = 2.1f;
 
     public float Heat;
-    public bool Powered;
+
+   
+    
+    private bool powered; 
+    public bool Powered
+    {
+        get { return powered; }
+        private set 
+        {
+
+            
+            powered = value; 
+        }
+    }
 
     public GameObject UIStatus;
-
+    public List<test> UIWallsAndFloors;
 
     public List<Waypoint> IdleSpots = new List<Waypoint>();
     public List<Waypoint> ChildWaypoints = new List<Waypoint>();
@@ -178,4 +191,28 @@ public class Room : MonoBehaviour {
     
     }
 
+
+    public void Enable()
+    {
+        Powered = true;
+        foreach (var neon in UIWallsAndFloors)
+                neon.Powered();
+
+
+
+    }
+
+    public void Disable()
+    {
+        Powered = false;
+        foreach (var neon in UIWallsAndFloors)
+            neon.Revert();
+    }
+
+
+    public float EnableCost
+    {
+        get;
+        set;
+    }
 }
